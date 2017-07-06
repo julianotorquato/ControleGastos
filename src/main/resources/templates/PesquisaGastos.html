@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="LayoutPadrao">
+    
+<head>
+	<title>Pesquisa de gastos</title>
+</head>
+
+<section layout:fragment="conteudo">
+	<div layout:include="MensagemGeral"></div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="clearfix">
+	   			<h1 class="panel-title aw-titulo-panel">Pesquisa de gastos</h1>
+	   			<a class="btn btn-link aw-link-panel" th:href="@{/movimentacoes/novo}">Novo gasto</a>
+	   		</div>
+	   	</div>
+	   	
+	   	<div class="panel-body">
+	   		<form method="GET" class="form-horizontal" th:action="@{/movimentacoes}" th:object="${filtro}">
+	   			<div class="form-group">
+	   				<div class="col-sm-4">
+	   					<div class="input-group">
+	   						<select class="form-control" name="filtro" th:field="*{idTipoMovimentacao}">
+	   							<option value="">Selecione</option>
+								<option th:each="tipoMovimentacao : ${tipoMovimentacoes}" th:value="${tipoMovimentacao.idTipoMovimentacao}" th:text="${tipoMovimentacao.nome}"></option>
+	                    	</select>
+	   						<span class="input-group-btn">
+	   							<button type="submit" class="btn btn-default">
+	   								<i class="glyphicon glyphicon-search"></i>
+	   							</button>
+	   						</span>
+	   						<input type="text" class="form-control"	id="dtMovimentacao" th:field="*{dtMovimentacao}"
+							data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+							data-date-autoclose="true" data-date-today-highlight="true" data-date-orientation="bottom"/>
+	   						<span class="input-group-btn">
+	   							<button type="submit" class="btn btn-default">
+	   								<i class="glyphicon glyphicon-search"></i>
+	   							</button>
+	   						</span>
+	   					</div>
+	   				</div>
+	   			</div>
+	   		</form>
+	   		
+	   		<div class="table-responsive">
+		   		<table class="table table-bordered table-striped">
+		   			<thead>
+		   				<tr>
+		   					<th class="text-center col-md-1">#</th>
+		   					<th>Tipo</th>
+		   					<th class="text-center col-md-2">Data de registro</th>
+		   					<th class="text-right col-md-2">Valor</th>
+		   					<th class="text-center col-md-2">Usuário</th>
+		   					<th class="col-md-1"></th>
+		   				</tr>
+		   			</thead>
+		   			<tbody>
+		   				<tr th:each="item : ${movimentacoes}">
+		   					<td class="text-center" th:text="${item.idMovimentacao}">1</td>
+		   					<td th:text="${item.tipoMovimentacao.nome}"></td>
+		   					<td class="text-center" th:text="${{item.dtMovimentacao}}"></td>
+		   					<td class="text-right" th:text="|R$ ${{item.vlMovimentacao}}|"></td>
+		   					<td class="text-center" th:text="${{item.usuario.nome}}"></td>
+		   					<td class="text-center">
+		   						<a class="btn btn-link btn-xs" th:href="@{/movimentacoes/{codigo}(codigo=${item.idMovimentacao})}" 
+		   								title="Editar" rel="tooltip" data-placement="top">
+		   							<span class="glyphicon glyphicon-pencil"></span>
+		   						</a>
+		   						<a class="btn btn-link btn-xs" data-toggle="modal" data-target="#confirmacaoExclusaoModal"
+		   								th:attr="data-codigo=${item.idMovimentacao}"
+		   								title="Excluir" rel="tooltip" data-placement="top">
+		   							<span class="glyphicon glyphicon-remove"></span>
+		   						</a>
+		   					</td>
+		   				</tr>
+		   				<tr>
+		   					<td colspan="6" th:if="${#lists.isEmpty(movimentacoes)}">Nenhum gasto foi encontrado</td>
+		   				</tr>
+		   			</tbody>
+		   		</table>
+		   	</div>
+	   	</div>
+	   	
+	   	<div layout:include="DialogoConfirmacaoExclusao"></div>
+	   	
+	</div>
+</section>
+</html>

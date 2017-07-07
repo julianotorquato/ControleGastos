@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="tipo_movimentacao")
@@ -17,6 +18,7 @@ public class TipoMovimentacao implements Serializable{
     
     private Long idTipoMovimentacao;
     private String nome;
+    private Boolean ativo = Boolean.TRUE;
     
     public TipoMovimentacao() { }
 
@@ -36,12 +38,21 @@ public class TipoMovimentacao implements Serializable{
         this.idTipoMovimentacao = idTipoMovimentacao;
     }
     
+    @NotNull(message = "Descrição do gasto é obrigatório")
     public String getNome() {
         return nome;
     }
     
     public void setNome(String nome) {
         this.nome = nome;
+    }
+    
+    public Boolean getAtivo() {
+        return ativo;
+    }
+    
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
     @Override

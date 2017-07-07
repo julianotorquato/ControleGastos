@@ -7,5 +7,6 @@ public class NavegationView {
         
         public static final String PESQUISA_GASTOS = "PesquisaGastos";
         public static final String CADASTRO_GASTO = "CadastroGasto";
+        public static final String CADASTRO_TIPO_GASTO = "CadastroTipoGasto";
     }    
 }

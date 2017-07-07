@@ -44,7 +44,7 @@ public class MovimentacaoController {
             attributes.addFlashAttribute("mensagem", PropertiesUtils.getString(PropertiesKey.GASTO_SALVO_SUCESSO));
             return "redirect:/movimentacoes/novo";
         } catch (IllegalArgumentException e) {
-            errors.rejectValue("dataVencimento", null, e.getMessage());
+            errors.rejectValue("dtMovimentacao", null, e.getMessage());
             return NavegationView.Movimentacao.CADASTRO_GASTO;
         }
     }
@@ -75,7 +75,7 @@ public class MovimentacaoController {
     
     @ModelAttribute("tipoMovimentacoes")
     public List<TipoMovimentacao> getTipoMovimentacoes() {
-        return movimentacaoService.getTipoMovimentacoes();
+        return movimentacaoService.getTipoMovimentaccaoAtivos();
     }
 	
 }

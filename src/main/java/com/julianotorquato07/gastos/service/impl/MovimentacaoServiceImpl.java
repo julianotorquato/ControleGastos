@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import com.julianotorquato07.gastos.common.properties.PropertiesKey;
+import com.julianotorquato07.gastos.common.properties.PropertiesUtils;
 import com.julianotorquato07.gastos.model.Movimentacao;
 import com.julianotorquato07.gastos.model.TipoMovimentacao;
 import com.julianotorquato07.gastos.model.Usuario;
@@ -28,7 +30,7 @@ public class MovimentacaoServiceImpl implements MovimentacaoService{
             movimentacao.setUsuario(usuario);
             repository.save(movimentacao);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Formato de data inválido");
+            throw new IllegalArgumentException(PropertiesUtils.getString(PropertiesKey.GASTO_FORMATO_DATA_INVALIDO));
         }
     }
 
@@ -36,9 +38,6 @@ public class MovimentacaoServiceImpl implements MovimentacaoService{
         repository.delete(_idMovimentacao);
     }
     
-    public List<TipoMovimentacao> getTipoMovimentacoes() {
-        return tipoMovimentacaoRepository.findAll();
-    }
     public List<Movimentacao> findAll(MovimentacaoFilter filtros) {
         if (ObjectUtils.isEmpty(filtros.getDtMovimentacao()) && ObjectUtils.isEmpty(filtros.getIdTipoMovimentacao())) {
             return repository.findAll();
@@ -53,6 +52,28 @@ public class MovimentacaoServiceImpl implements MovimentacaoService{
     @Override
     public List<Movimentacao> findAll() {
         return repository.findAll();
+    }
+    
+    public List<TipoMovimentacao> getTipoMovimentacoes() {
+        return tipoMovimentacaoRepository.findAll();
+    }
+    public List<TipoMovimentacao> getTipoMovimentaccaoAtivos() {
+        return tipoMovimentacaoRepository.findAllByAtivo();
+    }
+
+    @Override
+    public void salvarTipoMovimentacao(TipoMovimentacao tipoMovimentacao) {
+        tipoMovimentacaoRepository.save(tipoMovimentacao);
+    }
+    
+    @Override
+    public void inativarTipoMovimentacao(Long _idTipoMovimentacao) {
+        if (ObjectUtils.isEmpty(_idTipoMovimentacao)) {
+            return;
+        }
+        TipoMovimentacao tipo = tipoMovimentacaoRepository.findOne(_idTipoMovimentacao);
+        tipo.setAtivo(Boolean.FALSE);
+        tipoMovimentacaoRepository.save(tipo);
     }
     
 }

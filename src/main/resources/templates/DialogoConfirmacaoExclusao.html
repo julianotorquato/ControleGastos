@@ -25,5 +25,27 @@
 		</form>
 	</div>
 </div>
+<div class="modal fade" id="confirmacaoExclusaoTipoMov" tabindex="-1" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog">
+		<form th:attr="data-url-base=@{/tipo}" method="POST">
+			<input type="hidden" name="_method" value="PUT"/>
+			
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Você tem certeza?</h4>
+				</div>
+				
+				<div class="modal-body">
+					<span>Tem certeza que deseja inativar este registro?</span>
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-primary">Confirmar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
 	
 </html>

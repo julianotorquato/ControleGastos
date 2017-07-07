@@ -23,16 +23,21 @@
     		
     		<div class="panel-body">
     			<input type="hidden" th:field="*{idMovimentacao}"/>
-    				<div class="form-group">
-						<label for="status" class="col-sm-2 control-label">Tipo de gasto (*)</label>
-						<div class="col-sm-2">
-							<select class="form-control" name="tipoMovimentacao" th:field="*{tipoMovimentacao}">
-								<option value="">Selecione</option>
-								<option th:each="tipoMovimentacao : ${tipoMovimentacoes}" th:value="${tipoMovimentacao.idTipoMovimentacao}" th:text="${tipoMovimentacao.nome}"></option>
-	                    	</select>
-	                    </div>
-					</div>
-    		
+   				<div class="form-group">
+					<label for="status" class="col-sm-2 control-label">Tipo de gasto (*)</label>
+					<div class="col-sm-2">
+						<select class="form-control" name="tipoMovimentacao" th:field="*{tipoMovimentacao}">
+							<option value="">Selecione</option>
+							<option th:each="tipoMovimentacao : ${tipoMovimentacoes}" th:value="${tipoMovimentacao.idTipoMovimentacao}" th:text="${tipoMovimentacao.nome}"></option>
+                    	</select>
+                    </div>
+					<span class="input-group-btn ">
+						<a class="btn btn-default" th:href="@{/tipo/novo}">
+							<i class="glyphicon glyphicon-plus" />
+						</a>
+					</span>
+				</div>
+   		
 				<div class="form-group" th:classappend="${#fields.hasErrors('dtMovimentacao')} ? has-error">
 					<label for="dtMovimentacao" class="col-sm-2 control-label">Data do gasto (*)</label>
 					<div class="col-sm-2">  

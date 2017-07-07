@@ -12,6 +12,7 @@ create table movimentacao (
 create table tipo_movimentacao (
 	id_tipo_movimentacao  bigserial not null,
 	nome varchar(255),
+	ativo boolean,
 	primary key (id_tipo_movimentacao)
 );
 
@@ -33,7 +34,7 @@ alter table movimentacao
 	foreign key (id_usuario) 
 	references usuario;
 	
-INSERT INTO tipo_movimentacao (id_tipo_movimentacao,nome) VALUES (1,'Receita');
-INSERT INTO tipo_movimentacao (id_tipo_movimentacao,nome) VALUES (2,'Despesa');
+INSERT INTO tipo_movimentacao (id_tipo_movimentacao,nome, ativo) VALUES (1,'Receita', true);
+INSERT INTO tipo_movimentacao (id_tipo_movimentacao,nome, ativo) VALUES (2,'Despesa', true);
 
 INSERT INTO usuario(id_usuario, email, nome, senha)   VALUES (1, 'user@test.com', 'Juliano', '123');

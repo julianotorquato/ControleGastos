@@ -13,7 +13,13 @@ public interface MovimentacaoService {
 
     public List<TipoMovimentacao> getTipoMovimentacoes();
     
+    public List<TipoMovimentacao> getTipoMovimentaccaoAtivos();
+    
     public List<Movimentacao> findAll();
     
     public List<Movimentacao> findAll(MovimentacaoFilter filtros);
+
+    public void salvarTipoMovimentacao(TipoMovimentacao tipoMovimentacao);
+    
+    public void inativarTipoMovimentacao(Long _idTipoMovimentacao);
 }

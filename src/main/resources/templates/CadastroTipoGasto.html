@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="LayoutPadrao">
+
+<head>
+	<title>Cadastro tipo de gato</title>
+</head>
+
+<section layout:fragment="conteudo">
+    <form class="form-horizontal" method="POST" th:action="@{/tipo}" th:object="${tipoMovimentacao}">
+    	<div layout:include="MensagemGeral"></div>
+    	<div layout:include="MensagemErro"></div>
+    
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+    			<div class="clearfix">
+	   				<h1 class="panel-title aw-titulo-panel">Novo tipo gasto</h1>
+						<a class="btn btn-link aw-link-panel" th:href="@{/movimentacoes/novo}">Voltar</a>
+	   			</div>
+    		</div>
+    		
+    		<div class="panel-body">
+    			<input type="hidden" th:field="*{idTipoMovimentacao}"/>
+
+				<div class="form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+					<label for="nome" class="col-sm-3 control-label">Descrição (*)</label>
+					<div class="col-sm-4"> 
+						<input type="text" class="form-control" id="nome" th:field="*{nome}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-3 control-label">
+						(*) Campos obrigatórios
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-primary">Salvar</button>
+					</div>
+				</div>
+			</div>
+    	</div>
+    </form>
+    
+	<div class="table-responsive">
+   		<table class="table table-bordered table-striped">
+   			<thead>
+   				<tr>
+   					<th class="text-center col-md-1">#</th>
+   					<th class="col-md-2">Decrição</th>
+   					<th class="text-center col-md-1">Status</th>
+   					<th class="col-md-1"></th>
+   				</tr>
+   			</thead>
+   			<tbody>
+   				<tr th:each="tipoMovimentacao : ${tipoMovimentacoes}">
+   					<td class="text-center" th:text="${tipoMovimentacao.idTipoMovimentacao}">1</td>
+   					<td th:text="${tipoMovimentacao.nome}"></td>
+   					<td class="text-center" th:attr="data-role=${tipoMovimentacao.idTipoMovimentacao}">
+   						<div th:if="${tipoMovimentacao.ativo} == true">
+   							Ativo
+						</div>
+						<div th:if="${tipoMovimentacao.ativo} != true">
+   							Inativo
+						</div>
+   					</td>
+   					<td class="text-center">
+   						<div th:if="${tipoMovimentacao.ativo} == true">
+							<a class="btn btn-link btn-xs" data-toggle="modal" 
+								data-target="#confirmacaoExclusaoTipoMov"
+	 								th:attr="data-codigo=${tipoMovimentacao.idTipoMovimentacao}"
+	 								title="Inativar" rel="tooltip" data-placement="top">
+	 							<span class="glyphicon glyphicon-remove"></span>
+	   						</a>
+						</div>
+   					</td>
+   				</tr>
+   				<tr>
+   					<td colspan="6" th:if="${#lists.isEmpty(tipoMovimentacoes)}">Nenhum registro encontrado</td>
+   				</tr>
+   			</tbody>
+   		</table>
+   	</div>
+    
+    <div layout:include="DialogoConfirmacaoExclusao"></div>
+    
+</section>
+</html>
